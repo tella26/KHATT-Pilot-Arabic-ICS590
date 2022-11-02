@@ -17,6 +17,7 @@ from PIL import Image
 from skimage.transform import resize
 import jiwer
 import pandas as pd
+import tensorflow as tf
 
     
 # Utils
@@ -48,9 +49,9 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(img, w=128, h=128):
+def preprocessing(img, w=1000, h=400):
     w, h = img.size
-    #img = img.resize((w,h))
+    img = img.resize((w,h))
     # Thresholding
     thresh = threshold_mean(img)
     binary = img > thresh
@@ -98,4 +99,5 @@ def main():
 
     
 if __name__ == '__main__':
-    main()
+    with tf.device('device:GPU:0'):
+        main()
