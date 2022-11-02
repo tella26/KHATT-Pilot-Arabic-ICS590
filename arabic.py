@@ -49,8 +49,8 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(img, w=1000, h=400):
-    w, h = img.size
+def preprocessing(img, w=400, h=200):
+    #w, h = img.size
     img = img.resize((w,h))
     # Thresholding
     thresh = threshold_mean(img)
