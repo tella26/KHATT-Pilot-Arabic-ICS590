@@ -23,9 +23,9 @@ def reshape(data):
     return data
 
 def plot(data, test, predicted, figsize=(3, 3)):
-    data = [reshape(d) for d in data]
-    test = [reshape(d) for d in test]
-    predicted = [reshape(d) for d in predicted]
+    data = [reshape(d) for d in data[1:4]]
+    test = [reshape(d) for d in test[1:4]]
+    predicted = [reshape(d) for d in predicted[1:4]]
     
     fig, axarr = plt.subplots(len(data), 3, figsize=figsize)
     for i in range(len(data)):
@@ -42,11 +42,11 @@ def plot(data, test, predicted, figsize=(3, 3)):
         axarr[i, 2].axis('off')
             
     plt.tight_layout()
-    plt.savefig("result_mnist.png")
+    plt.savefig("imgs/result_arabic.png")
     plt.show()
 
 def preprocessing(img, w=128, h=128):
-    #w, h = img.shape
+    #w, h = img.size
     img = img.resize((w,h))
     # Thresholding
     thresh = threshold_mean(img)
