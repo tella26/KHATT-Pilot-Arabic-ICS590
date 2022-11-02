@@ -13,6 +13,8 @@ from skimage.color import rgb2gray
 from skimage.filters import threshold_mean
 from skimage.transform import resize
 import network
+from jiwer import wer
+
 
 # Utils
 def get_corrupted_input(input, corruption_level):
@@ -51,7 +53,7 @@ def plot(data, test, predicted, figsize=(5, 6)):
     plt.savefig("result.png")
     plt.show()
 
-def preprocessing(img, w=128, h=128):
+def preprocessing(img, w=98, h=50):
     # Resize image
     img = resize(img, (w,h), mode='reflect')
 
@@ -89,7 +91,9 @@ def main():
     print("Show prediction results...")
     plot(data, test, predicted)
     print("Show network weights matrix...")
-    #model.plot_weights()
+    model.plot_weights()
+    wers = wer(str(test), str(predicted))
+    print("word error rate (WER):", wers)
 
 if __name__ == '__main__':
     main()

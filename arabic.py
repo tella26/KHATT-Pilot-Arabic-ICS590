@@ -15,7 +15,10 @@ import os
 from os import listdir
 from PIL import Image
 from skimage.transform import resize
+import jiwer
+import pandas as pd
 
+    
 # Utils
 def reshape(data):
     dim = int(np.sqrt(len(data)))
@@ -46,8 +49,8 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.show()
 
 def preprocessing(img, w=128, h=128):
-    #w, h = img.size
-    img = img.resize((w,h))
+    w, h = img.size
+    #img = img.resize((w,h))
     # Thresholding
     thresh = threshold_mean(img)
     binary = img > thresh
@@ -81,10 +84,18 @@ def main():
     test = [preprocessing(d) for d in test]
     
     predicted = model.predict(test, threshold=50, asyn=True)
-    print("Show prediction results...")
+    print("Sample of prediction results...")
     plot(data, test, predicted, figsize=(5, 5))
-    print("Show network weights matrix...")
+    print("Network weights matrix...")
     model.plot_weights()
+    
+    ground_truth_dir = 'data/Groundtruth-Unicode.xlsx'
+    ground_truth = pd.read_excel(ground_truth_dir)
+    ground_truth = str(ground_truth[:])
+
+    wer = jiwer.wer(ground_truth, str(predicted))
+    print("word error rate (WER): %f", wer)
+
     
 if __name__ == '__main__':
     main()
