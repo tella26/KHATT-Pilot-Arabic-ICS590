@@ -42,7 +42,7 @@ def plot(data, test, predicted, figsize=(3, 3)):
         axarr[i, 2].axis('off')
             
     plt.tight_layout()
-    plt.savefig("imgs/result_arabic.png")
+    plt.savefig("result_arabic.png")
     plt.show()
 
 def preprocessing(img, w=128, h=128):
