@@ -49,7 +49,7 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(img, w=400, h=200):
+def preprocessing(img, w=450, h=150):
     #w, h = img.size
     img = img.resize((w,h))
     # Thresholding
