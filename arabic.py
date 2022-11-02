@@ -10,8 +10,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 from skimage.filters import threshold_mean
 import network
+from keras.datasets import mnist
 import os
-import torch
+from os import listdir
 from PIL import Image
 from skimage.transform import resize
 import jiwer
@@ -98,6 +99,5 @@ def main():
 
     
 if __name__ == '__main__':
-    """Device Selection"""
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    main().to(device)
+    with tf.device('/device:GPU:1'):
+        main()
