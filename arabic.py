@@ -77,8 +77,8 @@ def main():
     data = [preprocessing(d) for d in data]
     
     # Create Hopfield Network Model
-    model = network.HopfieldNetwork().to(device)
-    model.train_weights(data).to(device)
+    model = network.HopfieldNetwork()
+    model.train_weights(data)
     
     # test dataset
     test = [preprocessing(d) for d in test]
