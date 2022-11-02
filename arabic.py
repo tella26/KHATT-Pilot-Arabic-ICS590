@@ -10,9 +10,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from skimage.filters import threshold_mean
 import network
-from keras.datasets import mnist
 import os
-from os import listdir
+import torch
 from PIL import Image
 from skimage.transform import resize
 import jiwer
@@ -78,8 +77,8 @@ def main():
     data = [preprocessing(d) for d in data]
     
     # Create Hopfield Network Model
-    model = network.HopfieldNetwork()
-    model.train_weights(data)
+    model = network.HopfieldNetwork().to(device)
+    model.train_weights(data).to(device)
     
     # test dataset
     test = [preprocessing(d) for d in test]
@@ -99,5 +98,6 @@ def main():
 
     
 if __name__ == '__main__':
-    with tf.device('device:GPU:0'):
-        main()
+    """Device Selection"""
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    main().to(device)
