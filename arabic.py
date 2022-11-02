@@ -49,13 +49,13 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(img, w=450, h=150):
+def preprocessing(img, w=144, h=100):
     #w, h = img.size
     img = img.resize((w,h))
     # Thresholding
     thresh = threshold_mean(img)
     binary = img > thresh
-    shift = 2*(binary*1)-1 # Boolian to int
+    shift = 2*(binary*1)-1 
     
     # Reshape
     flatten = np.reshape(shift, (w*h))
@@ -63,6 +63,7 @@ def preprocessing(img, w=450, h=150):
 
 def main():
     # Load data
+    
     train_dir = 'data/train_data'
     test_dir =  'data/test_data'
 
@@ -73,6 +74,17 @@ def main():
     test = []
     for images in os.listdir(test_dir):
          test.append(Image.open(test_dir + '/' + images))
+         
+    # For testing with CPU
+    '''
+    data1 = Image.open('data/train_data/AHTD3A0001_Para2_3.tif')
+    data2 = Image.open('data/train_data/AHTD3A0001_Para2_4.tif')
+    test1 = Image.open('data/test_data/AHTD3A0438_Para3_4.tif')
+    test2 = Image.open('data/test_data/AHTD3A0441_Para2_1.tif')
+    
+    data =[data1,data2]
+    test =[test1,test2]
+    '''
     # Preprocessing
     print("Start data preprocessing...")
     data = [preprocessing(d) for d in data]
@@ -85,17 +97,19 @@ def main():
     test = [preprocessing(d) for d in test]
     
     predicted = model.predict(test, threshold=50, asyn=True)
-    print("Sample of prediction results...")
-    plot(data, test, predicted, figsize=(5, 5))
-    print("Network weights matrix...")
-    model.plot_weights()
+    #print("Sample of prediction results...")
+    #plot(data, test, predicted, figsize=(5, 5))
+    #print("Network weights matrix...")
+    #model.plot_weights()
     
+    '''
     ground_truth_dir = 'data/Groundtruth-Unicode.xlsx'
     ground_truth = pd.read_excel(ground_truth_dir)
-    ground_truth = str(ground_truth[:])
-
-    wer = jiwer.wer(ground_truth, str(predicted))
-    print("word error rate (WER): %f", wer)
+    ground_truth = str(ground_truth[:][1:2])
+    '''
+    print("Calculating the WER...")
+    wer = jiwer.wer(str(test), str(predicted))
+    print("word error rate (WER):", wer)
 
     
 if __name__ == '__main__':
