@@ -1,23 +1,21 @@
 
 # -*- coding: utf-8 -*-
 """
-Created on Sun Jul 29 08:40:49 2018
 
-@author: user
 """
 
 import numpy as np
 from matplotlib import pyplot as plt
 from skimage.filters import threshold_mean
 import network
-from keras.datasets import mnist
 import os
 from os import listdir
 from PIL import Image
 from skimage.transform import resize
 import jiwer
 import pandas as pd
-import tensorflow as tf
+import torch
+
 
     
 # Utils
@@ -97,10 +95,10 @@ def main():
     test = [preprocessing(d) for d in test]
     
     predicted = model.predict(test, threshold=50, asyn=True)
-    #print("Sample of prediction results...")
-    #plot(data, test, predicted, figsize=(5, 5))
-    #print("Network weights matrix...")
-    #model.plot_weights()
+    print("Sample of prediction results...")
+    plot(data, test, predicted, figsize=(5, 5))
+    print("Network weights matrix...")
+    model.plot_weights()
     
     '''
     ground_truth_dir = 'data/Groundtruth-Unicode.xlsx'
@@ -113,5 +111,6 @@ def main():
 
     
 if __name__ == '__main__':
-    with tf.device('/device:GPU:0'):
-        main()
+    """Device Selection"""
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    main().to(device)
