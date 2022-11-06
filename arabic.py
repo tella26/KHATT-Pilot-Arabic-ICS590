@@ -26,9 +26,9 @@ def reshape(data):
     return data
 
 def plot(data, test, predicted, figsize=(3, 3)):
-    data = [reshape(d) for d in data[1:4]]
-    test = [reshape(d) for d in test[1:4]]
-    predicted = [reshape(d) for d in predicted[1:4]]
+    data = [reshape(d) for d in data]
+    test = [reshape(d) for d in test]
+    predicted = [reshape(d) for d in predicted]
     
     fig, axarr = plt.subplots(len(data), 3, figsize=figsize)
     for i in range(len(data)):
@@ -48,7 +48,7 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(img, w=400, h=100):
+def preprocessing(img, w=800, h=50):
     #w, h = img.size
     img = img.resize((w,h))
     # Thresholding
@@ -62,7 +62,7 @@ def preprocessing(img, w=400, h=100):
 
 def main():
     # Load data
-    
+    '''
     train_dir = 'data/train_data'
     test_dir =  'data/test_data'
 
@@ -73,9 +73,9 @@ def main():
     test = []
     for images in os.listdir(test_dir):
          test.append(Image.open(test_dir + '/' + images))
-         
+    ''' 
     # For testing with CPU
-    '''
+    
     data1 = Image.open('data/train_data/AHTD3A0001_Para2_3.tif')
     data2 = Image.open('data/train_data/AHTD3A0001_Para2_4.tif')
     test1 = Image.open('data/test_data/AHTD3A0438_Para3_4.tif')
@@ -83,16 +83,16 @@ def main():
     
     data =[data1,data2]
     test =[test1,test2]
-    '''
+    
     # Preprocessing
     print("Start data preprocessing...")
     data = [preprocessing(d) for d in data]
-    w=1200
-    h=100
+    w=800
+    h=50
     # Create Hopfield Network Model
-    #model = network.HopfieldNetwork()
+    # model = network.HopfieldNetwork()
     model = HopfieldNet(w*h).to(device)
-    model.train_weights(data).to(device)
+    model.train_weights(data)
     
     # test dataset
     test = [preprocessing(d) for d in test]
@@ -116,4 +116,4 @@ def main():
 if __name__ == '__main__':
     """Device Selection"""
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    main().to(device)
+    main()

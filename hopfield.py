@@ -6,6 +6,8 @@ from tqdm import tqdm
 from torch.nn import Parameter
 from collections import defaultdict
 import numpy as np
+from matplotlib import pyplot as plt
+import matplotlib.cm as cm
 
 class HopfieldNet(nn.Module):
 
@@ -27,25 +29,28 @@ class HopfieldNet(nn.Module):
             self.register_parameter('bias', None)
 
     def _energy(self, x):
-        e = -0.5 * x @ self.weight @ x
+        #self.bias = None
+        e = -0.5 * x @ self.W @ x
+        x = x.to(dtype=torch.float32)
         if self.bias is not None:
             e -= self.bias @ x
         return e
         
     def _run(self, x, eps=1e-6):
-        """Synchronousl update
+        """Synchronous update
 
         Args:
             x (torch.Tensor): inputs
             eps (float): Defaults to 1e-6.
 
         """
+        x = torch.tensor(x,dtype=float)
         e = self._energy(x)
 
         for _ in range(self.max_iter):
 
             x = torch.sign(
-                F.linear(x, self.weight, self.bias) 
+                F.linear(x, self.W, self.bias) 
                     - self.threshold)
 
             new_e = self._energy(x)
@@ -83,6 +88,30 @@ class HopfieldNet(nn.Module):
         diagW = np.diag(np.diag(W))
         W = W - diagW
         W /= num_data
-        
+        W = torch.tensor(W,dtype=float)
         self.W = W 
+        
+    def predict(self, data, num_iter=20, threshold=0, asyn=False):
+        print("Start to predict...")
+        self.num_iter = num_iter
+        self.threshold = threshold
+        self.asyn = asyn
+        
+        # Copy to avoid call by reference 
+        copied_data = np.copy(data)
+        
+        # Define predict list
+        predicted = []
+        for i in tqdm(range(len(data))):
+            predicted.append(self._run(copied_data[i]))
+        return predicted
+    
+    def plot_weights(self):
+        plt.figure(figsize=(6, 5))
+        w_mat = plt.imshow(self.W, cmap=cm.coolwarm)
+        plt.colorbar(w_mat)
+        plt.title("Network Weights")
+        plt.tight_layout()
+        plt.savefig("weights.png")
+        plt.show()
 
