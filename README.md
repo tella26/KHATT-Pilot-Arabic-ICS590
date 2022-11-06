@@ -8,7 +8,7 @@ The Network is used on the KHATT-Pilot Dataset.
 - Python >= 3.5
 - numpy
 - matplotlib
-- tensorflow
+
 
 
 

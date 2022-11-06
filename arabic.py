@@ -15,6 +15,7 @@ from skimage.transform import resize
 import jiwer
 import pandas as pd
 import torch
+from hopfield import HopfieldNet
 
 
     
@@ -47,7 +48,7 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(img, w=1200, h=150):
+def preprocessing(img, w=400, h=100):
     #w, h = img.size
     img = img.resize((w,h))
     # Thresholding
@@ -86,10 +87,12 @@ def main():
     # Preprocessing
     print("Start data preprocessing...")
     data = [preprocessing(d) for d in data]
-    
+    w=1200
+    h=100
     # Create Hopfield Network Model
-    model = network.HopfieldNetwork()
-    model.train_weights(data)
+    #model = network.HopfieldNetwork()
+    model = HopfieldNet(w*h).to(device)
+    model.train_weights(data).to(device)
     
     # test dataset
     test = [preprocessing(d) for d in test]
