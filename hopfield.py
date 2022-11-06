@@ -13,7 +13,7 @@ class HopfieldNet(nn.Module):
 
     def __init__(self, 
                  in_features,
-                 bias=True,
+                 bias=False,
                  threshold=0.0, 
                  max_iter=128):
         super(HopfieldNet, self).__init__()
