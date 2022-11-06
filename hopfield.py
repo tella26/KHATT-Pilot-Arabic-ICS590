@@ -31,7 +31,7 @@ class HopfieldNet(nn.Module):
     def _energy(self, x):
         bias = self.bias 
         e = -0.5 * x @ self.W @ x
-        bias = bias.to(dtype=torch.float64)
+        #bias = bias.to(dtype=torch.float64)
         if bias is not None:
             e -= bias @ x
         return e
