@@ -48,7 +48,7 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(img, w=2025, h=100):
+def preprocessing(img, w=1600, h=100):
     w, h = img.size
     #img = img.resize((w,h))
     # Thresholding
@@ -87,7 +87,7 @@ def main():
     # Preprocessing
     print("Start data preprocessing...")
     data = [preprocessing(d) for d in data]
-    w=2025
+    w=1600
     h=100
     # Create Hopfield Network Model
     # model = network.HopfieldNetwork()
