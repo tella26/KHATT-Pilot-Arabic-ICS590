@@ -103,11 +103,6 @@ def main():
     print("Network weights matrix...")
     model.plot_weights()
     
-    '''
-    ground_truth_dir = 'data/Groundtruth-Unicode.xlsx'
-    ground_truth = pd.read_excel(ground_truth_dir)
-    ground_truth = str(ground_truth[:][1:2])
-    '''
     print("Calculating the WER...")
     wer = jiwer.wer(str(test), str(predicted))
     print("word error rate (WER):", wer)
