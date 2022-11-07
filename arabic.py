@@ -48,9 +48,9 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(img, w=1600, h=100):
-    w, h = img.size
-    #img = img.resize((w,h))
+def preprocessing(self,img, w=1600, h=100):
+    # w, h = img.size
+    img = img.resize((w,h))
     # Thresholding
     thresh = threshold_mean(img)
     binary = img > thresh
@@ -60,7 +60,7 @@ def preprocessing(img, w=1600, h=100):
     flatten = np.reshape(shift, (w*h))
     return flatten
 
-def main():
+def main(self):
     # Load data
     
     train_dir = 'data/train_data'
