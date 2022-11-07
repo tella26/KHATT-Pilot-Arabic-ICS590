@@ -48,7 +48,7 @@ def plot(data, test, predicted, figsize=(3, 3)):
     plt.savefig("result_arabic.png")
     plt.show()
 
-def preprocessing(self,img, w=1600, h=100):
+def preprocessing(img, w=1600, h=100):
     # w, h = img.size
     img = img.resize((w,h))
     # Thresholding
@@ -60,7 +60,7 @@ def preprocessing(self,img, w=1600, h=100):
     flatten = np.reshape(shift, (w*h))
     return flatten
 
-def main(self):
+def main():
     # Load data
     
     train_dir = 'data/train_data'
