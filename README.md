@@ -1,4 +1,4 @@
-# Hopfield Network for Arabic Offline OCR recognition for the course ICS590
+# Hopfield Network for Arabic Offline OCR recognition 
 King Fahd University of Petroleum and Minerals (KFUMP)
 
 Hopfield network (Amari-Hopfield network) is a special type of Recurrent Nueral Network implemented with Python. 
